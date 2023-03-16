@@ -1,5 +1,4 @@
 package post_requests;
-
 import base_urls.JsonPlaceHolderBaseUrl;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
@@ -9,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static io.restassured.RestAssured.given;
-import static org.testng.Assert.assertEquals;
+import static org.testng.AssertJUnit.assertEquals;
 
 public class Post01 extends JsonPlaceHolderBaseUrl {
       /*
@@ -33,16 +32,24 @@ public class Post01 extends JsonPlaceHolderBaseUrl {
                                     }
      */
 
+    /*
+    De-Serialization: Json datanın Java objesine çevrilmesi.
+    Serialization: Java objesinin, Json dataya çevrilmesi.
+    2 türlü De-Serialization yapacağız:
+        i) Gson: Google tarafından üretilmiştir.
+        ii) Object Mapper: En popüleri
+    */
+
     @Test
-    public void post01(){
+    public void post01() {
         //Set the URL
-        spec.pathParam("first","todos");
+        spec.pathParam("first", "todos");
 
         //Set the expected data ==> Payload
         Map<String, Object> expectedData = new HashMap<>();
-        expectedData.put("userId",55.0);
-        expectedData.put("title","Tidy your room");
-        expectedData.put("completed",false);
+        expectedData.put("userId", 55.0);
+        expectedData.put("title", "Tidy your room");
+        expectedData.put("completed", false);
         System.out.println("expectedData = " + expectedData);
 
         //Send the request and get the response
@@ -50,13 +57,13 @@ public class Post01 extends JsonPlaceHolderBaseUrl {
         response.prettyPrint();
 
         //Do Assertion
-        Map<String, Object> actualData = response.as(HashMap.class);//DE-Serialization ?==> Json to Java
-        System.out.println("actualDAta = " + actualData);
+        Map<String, Object> actualData = response.as(HashMap.class);//De-Serialization ==> Json -> Java
+        System.out.println("actualData = " + actualData);
 
-        assertEquals(201, response.statusCode());
-        assertEquals(expectedData.get("completed"),actualData.get("completed"));
-        assertEquals(expectedData.get("title"),actualData.get("title"));
-        assertEquals(expectedData.get("userId"),actualData.get("userId"));
+        assertEquals(201, response.statusCode());//Status Code
+        assertEquals(expectedData.get("completed"), actualData.get("completed"));
+        assertEquals(expectedData.get("title"), actualData.get("title"));
+        assertEquals(expectedData.get("userId"), actualData.get("userId"));
+
     }
-
 }
